@@ -71,19 +71,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'airhelperdev',
-        'USER': 'airhelper',
-        'PASSWORD': 'airhelper',
-        'HOST': 'psqldb',
-        'PORT': 5432,
-    }
-}
 
 
 # Password validation
