@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+  psqldb:
+    restart: always
+    image: postgres
+    environment:
+      - POSTGRES_DB=airhelperdev
+      - POSTGRES_USER=airhelper
+      - POSTGRES_PASSWORD=airhelper
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8
+    ports:
+      - "5432:5432"
+  django:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        DJANGO_ALLOWED_HOSTS: 0.0.0.0, 127.0.0.1
+        DJANGO_CORS_ORIGIN_WHITELIST: 127.0.0.1:8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/backend
+      - static_folder:/static
+    restart: always
+    depends_on:
+      - psqldb
+    links:
+      - psqldb
+volumes:
+  build_folder:
+  static_folder:

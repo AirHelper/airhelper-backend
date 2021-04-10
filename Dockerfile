@@ -1,0 +1,19 @@
+FROM python:3
+ENV PYTHONUNBUFFERED 1
+
+ARG DJANGO_ALLOWED_HOSTS
+ARG DJANGO_SECRET_KEY
+ARG DJANGO_CORS_ORIGIN_WHITELIST
+
+ENV DJANGO_ALLOWED_HOSTS $DJANGO_ALLOWED_HOSTS
+ENV DJANGO_SECRET_KEY $DJANGO_SECRET_KEY
+ENV DJANGO_CORS_ORIGIN_WHITELIST $DJANGO_CORS_ORIGIN_WHITELIST
+#ENV DJANGO_SETTINGS_MODULE backend.settings.development
+
+COPY . /backend
+WORKDIR /backend
+EXPOSE 8000
+RUN pip install -r requirements.txt
+ADD /start-server.sh /backend/start-server.sh
+RUN chmod +x /backend/start-server.sh
+CMD ["/bin/bash", "start-server.sh"]
