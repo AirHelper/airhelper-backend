@@ -28,7 +28,7 @@ docker-compose up
 > 로그인의 경우 features/oauth 또는 features/kakao 등등..
 
 3. 커스텀 유저 모델 생성한다.
-> 참고자료 드림 - Notion 확인
+> 참고자료 드림 - Notion->개발란->참고문헌 파일 확인
 
 4. 한앱에 하나의 기능을 넣는다.
 '''
