@@ -29,6 +29,6 @@ from .swagger import (
 @method_decorator(CustomUserDecorator.Partial(), name='partial_update')
 @method_decorator(CustomUserDecorator.Destroy(), name='destroy')
 class CustomUserViewSet(ModelViewSet):
-    queryset = CustomUser.objects.prefetch_related('group').all()
+    queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
 
