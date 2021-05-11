@@ -6,5 +6,5 @@ djangorestframework
 djangorestframework-simplejwt
 psycopg2
 knox
-drf-yasg
+drf_yasg
 pytest-django
