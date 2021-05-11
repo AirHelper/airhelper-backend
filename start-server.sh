@@ -1,3 +1,4 @@
+#!/bin/bash
 python manage.py collectstatic --no-input
 list=(/backend/*/)
 new_list=() # Not strictly necessary, but added for clarity
@@ -21,4 +22,4 @@ do
 done
 python manage.py makemigrations
 python manage.py migrate
-python manage.py runserver 0.0.0.0:8000
+python manage.py runserver 0.0.0.0:8000 &
