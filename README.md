@@ -53,5 +53,8 @@ docker-compose exec django python manage.py startapp 앱명
 > docker-compose exec django python manage.py createsuperuser
 
 5. 테스트 수행
-> docker-compose exec django python manage.py test <app-name>
+> docker-compose exec django pytest <appname>
+
+6. 새 앱 만들기
+> docker-compose exec django python manage.py startapp <appname>
 
