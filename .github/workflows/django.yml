@@ -16,18 +16,6 @@ jobs:
       matrix:
         python-version: [3.9]
 
-    services:
-      psqldb:
-        image: postgres
-        env:
-          POSTGRES_DB: airhelperdev
-          POSTGRES_USER: airhelper
-          POSTGRES_PASSWORD: airhelper
-          POSTGRES_HOST_AUTH_METHOD: trust
-          POSTGRES_INITDB_ARGS: --encoding=UTF-8
-        ports:
-          - 5432:5432
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -36,9 +24,8 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Dependencies
       run: |
-        export DJANGO_SETTINGS_MODULE=backend.settings.dev
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run Tests
       run: |
-        pytest
+        python manage.py test
