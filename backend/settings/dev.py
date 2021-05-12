@@ -18,6 +18,7 @@ import json
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases'
 SYSTEM_ENV = os.environ.get('SYSTEM_ENV', None)
 if SYSTEM_ENV is None:
+    print('로컬 개발용')
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -29,7 +30,7 @@ if SYSTEM_ENV is None:
         }
     }
 else:
-    print('여기')
+    print('깃허브 액션 테스트용')
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
