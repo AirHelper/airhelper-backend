@@ -42,3 +42,5 @@ jobs:
     - name: Run Tests
       run: |
         pytest
+      env:
+        SYSTEM_ENV: GITHUB_WORKFLOW
