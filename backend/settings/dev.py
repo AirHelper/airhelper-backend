@@ -23,7 +23,7 @@ if os.getenv('GITHUB') == 'action':
             'NAME': 'airhelperdev',
             'USER': 'airhelper',
             'PASSWORD': 'airhelper',
-            'HOST': 'psqldb',
+            'HOST': 'localhost',
             'PORT': 5432,
         }
     }
@@ -34,7 +34,7 @@ else:
             'NAME': 'airhelperdev',
             'USER': 'airhelper',
             'PASSWORD': 'airhelper',
-            'HOST': 'localhost',
+            'HOST': 'psqldb',
             'PORT': 5432,
         }
     }
