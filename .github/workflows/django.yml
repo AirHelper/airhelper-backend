@@ -22,6 +22,12 @@ jobs:
           POSTGRES_PASSWORD: airhelper
         ports:
           - 5432:5432
+      django:
+        build:
+          dockerfile: Dockerfile
+          arg:
+            DJANGO_ALLOWED_HOSTS: 0.0.0.0, 127.0.0.1
+            DJANGO_CORS_ORIGIN_WHITELIST: 127.0.0.1:8000
 
     steps:
     - uses: actions/checkout@v2
