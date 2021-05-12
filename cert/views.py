@@ -31,4 +31,3 @@ from .swagger import (
 class CustomUserViewSet(ModelViewSet):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
-
