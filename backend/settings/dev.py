@@ -16,8 +16,8 @@ import json
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases'
-print('우와...', os.getenv('GITHUB'))
-if os.getenv('GITHUB') is not None:
+print('우와...', os.getenv('GITHUB') == None)
+if os.getenv('GITHUB') is None:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',

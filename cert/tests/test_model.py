@@ -27,4 +27,4 @@ class CustomUserModelTest(TestCase):
         self.user1.set_password('1234')
         self.user1.save()
         self.serialized_user1 = CustomUserSerializer(self.user1).data
-        print(os.getenv('GITHUB'))
+
