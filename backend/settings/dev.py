@@ -15,15 +15,29 @@ import json
 
 
 # Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'airhelperdev',
-        'USER': 'airhelper',
-        'PASSWORD': 'airhelper',
-        'HOST': 'psqldb',
-        'PORT': 5432,
+# https://docs.djangoproject.com/en/3.2/ref/settings/#databases'
+SYSTEM_ENV = os.environ.get('SYSTEM_ENV', None)
+if SYSTEM_ENV is None:
+    print('로컬 개발용')
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'airhelperdev',
+            'USER': 'airhelper',
+            'PASSWORD': 'airhelper',
+            'HOST': 'psqldb',
+            'PORT': 5432,
+        }
     }
-}
+else:
+    print('깃허브 액션 테스트용')
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'airhelperdev',
+            'USER': 'airhelper',
+            'PASSWORD': 'airhelper',
+            'HOST': 'localhost',
+            'PORT': 5432,
+        }
+    }
