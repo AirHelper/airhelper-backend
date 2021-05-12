@@ -1,7 +1,7 @@
 from django.test import TestCase
 from cert.models import CustomUser
 from cert.serializers import CustomUserSerializer
-
+import os
 
 class CustomUserModelTest(TestCase):
     def setUp(self):
@@ -27,3 +27,4 @@ class CustomUserModelTest(TestCase):
         self.user1.set_password('1234')
         self.user1.save()
         self.serialized_user1 = CustomUserSerializer(self.user1).data
+        print(os.getenv('GITHUB'))

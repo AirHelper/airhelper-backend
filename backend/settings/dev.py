@@ -24,7 +24,7 @@ if os.getenv('GITHUB') is not None:
             'NAME': 'airhelperdev',
             'USER': 'airhelper',
             'PASSWORD': 'airhelper',
-            'HOST': 'localhost',
+            'HOST': 'psqldb',
             'PORT': 5432,
         }
     }
@@ -36,7 +36,7 @@ else:
             'NAME': 'airhelperdev',
             'USER': 'airhelper',
             'PASSWORD': 'airhelper',
-            'HOST': 'psqldb',
+            'HOST': 'localhost',
             'PORT': 5432,
         }
     }
