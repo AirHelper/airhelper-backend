@@ -1,6 +1,9 @@
 name: Django CI
 
-on: push
+on:
+  push:
+    branches:
+      - django_CI
 
 
 jobs:
