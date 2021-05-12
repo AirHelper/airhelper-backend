@@ -16,7 +16,6 @@ import json
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases'
-print(os.getenv('GITHUB'))
 if os.getenv('GITHUB') == 'action':
     DATABASES = {
         'default': {
@@ -35,7 +34,7 @@ else:
             'NAME': 'airhelperdev',
             'USER': 'airhelper',
             'PASSWORD': 'airhelper',
-            'HOST': 'localhost',
+            'HOST': 'psqldb',
             'PORT': 5432,
         }
     }
