@@ -54,9 +54,9 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         script: |
-          whoami
-          ls -al
-          pwd
+          cd airhelper-backend/
+          git pull
+          docker-compose up --build -d
 #      uses: SamKirkland/FTP-Deploy-Action@4.0.0
 #      with:
 #        server: 133.186.228.87
