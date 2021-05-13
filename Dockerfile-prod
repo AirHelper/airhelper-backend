@@ -1,6 +1,14 @@
-FROM python:3.9
-RUN mkdir /code
-WORKDIR /code
-ADD requirements.txt /code/
-RUN pip install -r requirements.txt
-ADD . /code/
+FROM python:3
+USER root
+
+ENV PYTHONUNBUFFERED 1
+
+ENV DJANGO_SETTINGS_MODULE backend.settings.prod
+
+COPY . /backend
+WORKDIR /backend
+RUN pip install --no-cache-dir -r requirements.txt
+#EXPOSE 8000
+ADD /start-server.sh /backend/start-server.sh
+RUN chmod +x /backend/start-server.sh
+CMD ["/bin/bash", "start-server.sh"]
