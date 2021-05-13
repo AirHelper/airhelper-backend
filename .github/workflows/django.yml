@@ -47,8 +47,13 @@ jobs:
         SYSTEM_ENV: GITHUB_WORKFLOW
 
     - name: deploy to NHN Toast Cloud
-      uses: SamKirkland/FTP-Deploy-Action@4.0.0
+      uses: appleboy/ssh-action@master
       with:
-        server: 133.186.228.87
+        host: 133.186.228.87
         username: tester
         password: swcu1234
+#      uses: SamKirkland/FTP-Deploy-Action@4.0.0
+#      with:
+#        server: 133.186.228.87
+#        username: tester
+#        password: swcu1234
