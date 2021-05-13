@@ -56,7 +56,7 @@ jobs:
         script: |
           cd airhelper-backend/
           git pull
-          docker-compose up --build -d
+          docker-compose -f docker-compose-prod.yml up --build -d
 #      uses: SamKirkland/FTP-Deploy-Action@4.0.0
 #      with:
 #        server: 133.186.228.87
