@@ -49,10 +49,10 @@ jobs:
     - name: deploy to NHN Toast Cloud
       uses: appleboy/ssh-action@master
       with:
-        host: 133.186.228.87
-        username: tester
-        password: swcu1234
-        port: 22
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
         script: whoami
 #      uses: SamKirkland/FTP-Deploy-Action@4.0.0
 #      with:
