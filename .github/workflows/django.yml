@@ -52,6 +52,8 @@ jobs:
         host: 133.186.228.87
         username: tester
         password: swcu1234
+        port: 22
+        script: whoami
 #      uses: SamKirkland/FTP-Deploy-Action@4.0.0
 #      with:
 #        server: 133.186.228.87
