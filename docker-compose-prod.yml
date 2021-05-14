@@ -1,22 +1,26 @@
-version: '3'
+version: "3"
 
 services:
-  airhelper-backend:
-    build:
-      context: .
-    volumes:
-      - .:/backend
-      - static_folder:/backend/static
-    ports:
-      - "8000:8000"
-  nginx:
-    image: nginx:latest
-    ports:
-      - "80:8080"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-      - static_folder:/var/www/static
-    depends_on:
-      - airhelper-backend
-volumes:
-  static_folder:
+
+        nginx:
+                container_name: nginx
+                build: ./nginx
+                restart: always
+                image: docker-server/nginx
+                ports:
+                  - "80:80"
+                volumes:
+                  - ./server_dev:/srv/docker-server
+                  - ./log:/var/log/nginx
+                depends_on:
+                  - django
+
+        django:
+                container_name: django
+                build: ./airhelper-backend
+                image: docker-server/django
+                restart: always
+                command: uwsgi --ini uwsgi.ini
+                volumes:
+                   - ./server_dev:/srv/docker-server
+                   - ./log:/var/log/uwsgi
