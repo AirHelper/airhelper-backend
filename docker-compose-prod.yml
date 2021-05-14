@@ -6,19 +6,21 @@ services:
                 container_name: nginx
                 build: ./nginx
                 restart: always
-                image: docker-server/nginx
+                image: ./nginx
                 ports:
                   - "80:80"
                 volumes:
-                  - ./server_dev:/srv/docker-server
-                  - ./log:/var/log/nginx
+                  - ./:/srv/docker-server
+                  - ./:/var/log/nginx
                 depends_on:
                   - django
 
         django:
                 container_name: django
-                build: ./airhelper-backend
-                image: docker-server/django
+                build:
+                  context: ./
+                  dockerfile: Dockerfile-prod
+                image: ./
                 restart: always
                 command: uwsgi --ini uwsgi.ini
                 volumes:
