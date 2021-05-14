@@ -56,4 +56,4 @@ jobs:
         script: |
           cd airhelper-backend/
           git pull
-          docker-compose -f produce.yml up --build -d
+#          docker-compose -f produce.yml up --build -d
