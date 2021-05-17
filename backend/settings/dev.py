@@ -13,7 +13,7 @@ from .base import *
 import os
 import json
 
-
+DEBUG = True
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases'
 SYSTEM_ENV = os.environ.get('SYSTEM_ENV', None)
