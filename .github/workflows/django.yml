@@ -56,12 +56,13 @@ jobs:
         script: |
           cd airhelper-backend/
           docker-compose down
-          git reset --hard origin/main
-          git pull origin main
+          git fetch --all
+          git reset --hard origin/master
+          git pull origin master
           docker-compose -f produce.yml up --build -d
 
 #          docker stop $(docker ps -a -q)
 #          docker rm $(docker ps -a -q)
 #          docker rmi $(docker images -q)
-#          git fetch --all
+
 #          docker-compose -f produce.yml up --build -d
