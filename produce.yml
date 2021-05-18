@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  airhelper-backend:
+  django:
     build:
       context: .
       dockerfile: Dockerfile-prod
@@ -21,4 +21,4 @@ services:
       - .:/airhelper-backend
       - ./config/nginx:/etc/nginx/conf.d
     depends_on: # 서비스 간의 종속성 표현
-      - airhelper-backend
+      - django
