@@ -59,7 +59,9 @@ jobs:
           docker stop $(docker ps -a -q)
           docker rm $(docker ps -a -q)
           docker rmi $(docker images -q)
-          git pull
+          git fetch --all
+          git reset --hard origin/main
+          git pull origin main
           docker-compose -f produce.yml up --build -d
 
 #          docker-compose -f produce.yml up --build -d
