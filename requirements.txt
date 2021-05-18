@@ -9,4 +9,3 @@ knox
 drf_yasg
 pytest-django
 gunicorn
-uwsgi
