@@ -55,5 +55,14 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
           cd airhelper-backend/
-          git pull
+          docker-compose down
+          docker stop $(docker ps -a -q)
+          docker rm $(docker ps -a -q)
+          docker rmi $(docker images -q)
+          cd ..
+          rm -rf airhelper-backend/
+          git clone https://github.com/AirHelper/airhelper-backend
+          cd airhelper-backend/
+          docker-compose -f produce.yml up --build -d
+
 #          docker-compose -f produce.yml up --build -d
