@@ -60,7 +60,7 @@ jobs:
           git reset --hard origin/master
           git pull origin master
           docker-compose -f produce.yml up --build -d
-          docker-compose exec airhelper-backend python manage.py collectstatic
+#          docker-compose exec airhelper-backend python manage.py collectstatic
 #          docker stop $(docker ps -a -q)
 #          docker rm $(docker ps -a -q)
 #          docker rmi $(docker images -q)
