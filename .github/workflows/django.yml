@@ -57,8 +57,8 @@ jobs:
           cd airhelper-backend/
           docker-compose down
           git fetch --all
-          git reset --hard origin/master
-          git pull origin master
+          git reset --hard origin/main
+          git pull origin main
           docker-compose -f produce.yml up --build -d
 #          docker-compose exec airhelper-backend python manage.py collectstatic
 #          docker stop $(docker ps -a -q)
