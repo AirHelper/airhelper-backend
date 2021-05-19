@@ -55,9 +55,9 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
           cd airhelper-backend/
-          docker stop $(docker ps -a -q)
-          docker rm $(docker ps -a -q)
-          docker rmi $(docker images -q)
+          docker stop ${{ secrets.DOCKER_PS }}
+          docker rm ${{ secrets.DOCKER_PS }}
+          docker rmi ${{ secrets.DOCKER_IMG }}
           git fetch --all
           git reset --hard origin/main
           git pull origin main
