@@ -2,6 +2,7 @@ version: "3"
 
 services:
   airhelper-backend:
+    container_name: django
     build:
       context: .
       dockerfile: Dockerfile-prod
@@ -14,6 +15,7 @@ services:
       - "8000"
 
   nginx:
+    container_name: nginx
     image: nginx:latest # nginx 서비스에서 사용할 도커 이미지
     ports:
       - "80:80"
