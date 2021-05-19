@@ -9,6 +9,7 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
+      - ./backend/static:/static
     command: gunicorn backend.wsgi:application --bind 0.0.0.0:8000
     expose:
       - "8000"
@@ -20,5 +21,9 @@ services:
     volumes:
       - .:/app
       - ./config/nginx:/etc/nginx/conf.d
+      - ./backend/static:/static
     depends_on: # 서비스 간의 종속성 표현
       - app
+
+volumes:
+  static:
