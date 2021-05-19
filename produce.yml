@@ -1,14 +1,14 @@
 version: "3"
 
 services:
-  airhelper-backend:
+  app:
     build:
       context: .
       dockerfile: Dockerfile-prod
     ports:
       - "8000:8000"
     volumes:
-      - .:/airhelper-backend
+      - .:/app
     command: gunicorn backend.wsgi:application --bind 0.0.0.0:8000
     expose:
       - "8000"
@@ -18,7 +18,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - .:/airhelper-backend
+      - .:/app
       - ./config/nginx:/etc/nginx/conf.d
     depends_on: # 서비스 간의 종속성 표현
-      - airhelper-backend
+      - app

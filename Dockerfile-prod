@@ -13,6 +13,6 @@ ENV DJANGO_SETTINGS_MODULE backend.settings.prod
 COPY requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
-RUN mkdir /airhelper-backend
-WORKDIR /airhelper-backend
-COPY . /airhelper-backend
+RUN mkdir /app
+WORKDIR /app
+COPY . /app
