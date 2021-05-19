@@ -62,4 +62,5 @@ jobs:
           git reset --hard origin/main
           git pull origin main
           docker-compose -f produce.yml up --build -d
+          docker exec -it airhelper-backend_app_1 python manage.py collectstatic
 #          docker-compose exec airhelper-backend python manage.py collectstatic
