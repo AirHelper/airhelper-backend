@@ -16,8 +16,8 @@ class UserManager(BaseUserManager):
         if not name:
             raise ValueError("User must have a name")
 
-        user = self.models(
-            email = self.normalize_email(email)
+        user = self.model(
+            email=self.normalize_email(email)
         )
 
         user.user_id = user_id

@@ -58,3 +58,6 @@ docker-compose exec django python manage.py startapp 앱명
 6. 새 앱 만들기
 > docker-compose exec django python manage.py startapp 'appname'
 
+7. 테스트 커버리지 시각화
+> docker-compose exec django coverage run manage.py test
+> docker-compose exec django coverage html
