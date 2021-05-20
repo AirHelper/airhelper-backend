@@ -1,2 +1,4 @@
 [run]
-omit = ./backend/settings/dev.py
+omit =
+    ./backend/*
+    manage.py
