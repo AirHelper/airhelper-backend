@@ -19,6 +19,7 @@ class UserTests(APITestCase):
         self.user.save()
 
     def test_create_user(self):
+        # post
         url = reverse('user_CR')
         data = {
             'name': 'tester',
@@ -30,6 +31,29 @@ class UserTests(APITestCase):
         response = self.client.post(url, data, format='json')
         self.assertEqual(CustomUser.objects.count(), 2)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        temp = response.data
+
+        # get
+        url = reverse('user', kwargs={'pk': response.data['id']})
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.data, temp)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # patch
+        url = reverse('user', kwargs={'pk': response.data['id']})
+        data = {
+            'name': 'modifyed_tester'
+        }
+        response = self.client.patch(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(CustomUser.objects.filter(id=response.data['id']).first().name, 'modifyed_tester')
+
+        # delete
+        url = reverse('user', kwargs={'pk': response.data['id']})
+        response = self.client.delete(url, format='json')
+        self.assertEqual(CustomUser.objects.count(), 1)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_create_user_no_name(self):
         url = reverse('user_CR')
