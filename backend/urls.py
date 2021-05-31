@@ -36,6 +36,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/cert/', include('cert.urls')),
+    path('api/oauth/', include('oauth.urls')),
 ]
 
 if settings.DEBUG:
