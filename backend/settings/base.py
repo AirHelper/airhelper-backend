@@ -125,6 +125,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'cert.CustomUser'
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
 # 소셜 로그인
 KAKAO_URI = 'https://kauth.kakao.com'
 KAKAO_API_URI = 'https://kapi.kakao.com'

@@ -1,9 +1,6 @@
 import requests
-from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
-from django.shortcuts import redirect
-from django.conf import settings
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
@@ -25,6 +22,7 @@ from .modules import (
     create_bad_response, create_login_token,  get_user_data_by_token, create_user_data,
     create_socialuser_data, make_social_account, check_connected, is_active_false_to_true
 )
+
 
 # 테스트하려고 임시로 만들어놓은 것, 완성후 삭제 예정
 class KakaoSignInView(APIView):
@@ -63,7 +61,7 @@ class KakaoSignInCallbackView(APIView):
 @method_decorator(KakaoLoginDecorator.Create(), name='create')
 @method_decorator(KakaoLoginDecorator.Partial(), name='partial_update')
 @method_decorator(KakaoLoginDecorator.Retrieve(), name='retrieve')
-class KakaoViewSet(ModelViewSet):
+class KakaoViewSet(ModelViewSet):  # 카카오 로그인/회원가입
     serializer_class = SocialLoginSerializer
     permission_classes = [AllowAny]
 
@@ -113,7 +111,7 @@ class KakaoViewSet(ModelViewSet):
 @method_decorator(KakaoConnectionsDecorator.Create(), name='create')
 @method_decorator(KakaoConnectionsDecorator.Retrieve(), name='retrieve')
 @method_decorator(KakaoConnectionsDecorator.Destroy(), name='destroy')
-class KakaoConnectionsViewSet(ModelViewSet):
+class KakaoConnectionsViewSet(ModelViewSet):  # 카카오 계정 연동
     serializer_class = SocialLoginSerializer
     permission_classes = [AllowAny]
 

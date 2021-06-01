@@ -21,7 +21,7 @@ class SocialaddDataSerializer(serializers.Serializer):
 class KakaoLoginDecorator():
     def Create():
         return swagger_auto_schema(
-            operation_summary="Kakao",
+            operation_summary="카카오 로그인/회원가입",
             operation_description="카카오로 로그인/가입한다.",
             request_body=SocialLoginSerializer,
             responses={
@@ -33,7 +33,7 @@ class KakaoLoginDecorator():
 
     def Retrieve():
         return swagger_auto_schema(
-            operation_summary="Kakao",
+            operation_summary="카카오 로그인정보 불러오기",
             operation_description="카카오로 로그인한 사용자 정보를 불러온다.",
             manual_parameters=[
                 openapi.Parameter(
@@ -48,7 +48,7 @@ class KakaoLoginDecorator():
 
     def Partial():
         return swagger_auto_schema(
-            operation_summary="Kakao",
+            operation_summary="카카오 추가 정보 입력",
             operation_description="카카오 최초 로그인 후 추가 정보를 입력받는다.",
             request_body=SocialaddDataSerializer,
             responses={
@@ -60,7 +60,7 @@ class KakaoLoginDecorator():
 class KakaoConnectionsDecorator():
     def Retrieve():
         return swagger_auto_schema(
-            operation_summary="Kakao Connections",
+            operation_summary="카카오 계정 연동정보 가져오기",
             operation_description="카카오 계정 연동정보 가져오기",
             responses={
                 200: SocialUserSerializer
@@ -69,7 +69,7 @@ class KakaoConnectionsDecorator():
 
     def Create():
         return swagger_auto_schema(
-            operation_summary="Kakao Connections",
+            operation_summary="카카오 계정 연동",
             operation_description="카카오 계정 연동",
             request_body=SocialLoginSerializer,
             responses={
@@ -79,7 +79,7 @@ class KakaoConnectionsDecorator():
 
     def Destroy():
         return swagger_auto_schema(
-            operation_summary="Kakao Connections",
+            operation_summary="카카오 계정 연동 해제",
             operation_description="카카오 계정 연동해제"
         )
 
