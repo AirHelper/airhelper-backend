@@ -9,6 +9,24 @@ from .serializers import CustomUserSerializer
 """
 
 
+class LoginUserResponseSerializer(serializers.Serializer):
+    id = serializers.IntegerField(label='PK', required=False)
+    last_login = serializers.DateTimeField(label='마지막 로그인', required=False)
+    user_id = serializers.CharField(label='아이디', max_length=50, required=False)
+    email = serializers.EmailField(label='이메일', max_length=254, required=False)
+    name = serializers.CharField(label='이름', max_length=60, required=False)
+    call_sign = serializers.CharField(label='닉네임', max_length=60, required=False)
+    profile_image = serializers.CharField(label='프로필사진', required=False)
+    is_active = serializers.BooleanField(label='활성화여부', required=False)
+
+
+class LoginResponseSerializer(serializers.Serializer):
+    user = LoginUserResponseSerializer(label='유저정보', required=False)
+    access = serializers.CharField(label='access토큰', required=False)
+    refresh = serializers.CharField(label='refresh토큰', required=False)
+    lifetime = serializers.FloatField(label='access토큰 남은시간', required=False)
+
+
 class CustomUserDecorator():
     def Create():
         return swagger_auto_schema(

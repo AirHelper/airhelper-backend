@@ -10,3 +10,5 @@ drf_yasg
 pytest-django
 gunicorn
 coverage
+random_username
+djangorestframework-simplejwt

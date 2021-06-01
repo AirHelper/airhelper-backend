@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'cert',
     'rest_framework',
     'drf_yasg',
+    'oauth',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +132,4 @@ KAKAO_REFRESH_URI = '/oauth/token'
 KAKAO_TOKEN_INFO_URI = '/v1/user/access_token_info'
 KAKAO_USER_INFO_URI = '/v2/user/me'
 KAKAO_REDIRECT_URI = 'http://127.0.0.1:8000/api/oauth/kakao/login/callback/'
+KAKAO = 'kakao'
