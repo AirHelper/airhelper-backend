@@ -14,7 +14,6 @@ class SocialLoginSerializer(serializers.Serializer):
 
 
 class SocialaddDataSerializer(serializers.Serializer):
-    id = serializers.IntegerField(label='회원번호')
     call_sign = serializers.CharField(label='콜사인', max_length=60)
 
 
@@ -83,3 +82,10 @@ class KakaoConnectionsDecorator():
             operation_description="카카오 계정 연동해제"
         )
 
+
+class LogoutDecorator():
+    def Destroy():
+        return swagger_auto_schema(
+            operation_summary="로그아웃",
+            operation_description="우리 서비스를 로그아웃 시킨다. 토큰을 만료시킨다."
+        )

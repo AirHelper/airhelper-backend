@@ -10,13 +10,14 @@ from django.utils.decorators import method_decorator
 from django.db import transaction
 from django.shortcuts import redirect
 from django.conf import settings
-
+from rest_framework_simplejwt.tokens import RefreshToken
 from cert.serializers import CustomUserSerializer
 from cert.models import CustomUser
 from .models import SocialUser
 from .serializers import SocialUserSerializer, OauthUserSerializer
 from .swagger import (
-    SocialLoginSerializer, KakaoConnectionsDecorator, KakaoLoginDecorator
+    SocialLoginSerializer, KakaoConnectionsDecorator, KakaoLoginDecorator,
+    LogoutDecorator
 )
 from .modules import (
     create_bad_response, create_login_token,  get_user_data_by_token, create_user_data,
@@ -145,3 +146,18 @@ class KakaoConnectionsViewSet(ModelViewSet):  # 카카오 계정 연동
         self.check_object_permissions(self.request, user_connections)
         user_connections.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@method_decorator(LogoutDecorator.Destroy(), name='destroy')
+class LogoutViewSet(ModelViewSet):
+    serializer_class = SocialLoginSerializer
+
+    @action(detail=True, methods=['DELETE'])
+    def destroy(self, request):
+        try:
+            refresh_token = request.data.get('refresh')
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response(status=status.HTTP_205_RESET_CONTENT)
+        except Exception as e:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
