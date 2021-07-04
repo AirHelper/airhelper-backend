@@ -11,6 +11,7 @@ from django.db import transaction
 from django.shortcuts import redirect
 from django.conf import settings
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import OutstandingToken
 from cert.serializers import CustomUserSerializer
 from cert.models import CustomUser
 from .models import SocialUser
@@ -148,9 +149,22 @@ class KakaoConnectionsViewSet(ModelViewSet):  # 카카오 계정 연동
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+@method_decorator(LogoutDecorator.Partial(), name='partial_update')
 @method_decorator(LogoutDecorator.Destroy(), name='destroy')
 class LogoutViewSet(ModelViewSet):
     serializer_class = SocialLoginSerializer
+
+    @action(detail=True, methods=['PATCH'])
+    def partial_update(self, request):
+        refresh_token = request.data.get('refresh')
+        token = RefreshToken(refresh_token)
+
+        return Response({
+            'user': OutstandingToken.objects.filter(token=refresh_token).get().user_id,
+            'access': str(token.access_token),
+            'refresh': str(token.token),
+            'lifetime': token.lifetime,
+        }, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['DELETE'])
     def destroy(self, request):

@@ -16,8 +16,14 @@ class SocialLoginSerializer(serializers.Serializer):
 class SocialaddDataSerializer(serializers.Serializer):
     call_sign = serializers.CharField(label='콜사인', max_length=60)
 
+
 class LogoutSerializer(serializers.Serializer):
     refresh = serializers.CharField(label='리프레시 토큰')
+
+
+class TokenRefreshSerializer(serializers.Serializer):
+    refresh = serializers.CharField(label='리프레시 토큰')
+    access = serializers.CharField(label='액세스 토큰')
 
 
 class KakaoLoginDecorator():
@@ -87,6 +93,16 @@ class KakaoConnectionsDecorator():
 
 
 class LogoutDecorator():
+    def Partial():
+        return swagger_auto_schema(
+            operation_summary="로그인 토큰 갱신",
+            operation_description="로그인 토큰을 갱신한다.",
+            request_body=LogoutSerializer,
+            responses={
+                200: TokenRefreshSerializer
+            }
+        )
+
     def Destroy():
         return swagger_auto_schema(
             operation_summary="로그아웃",

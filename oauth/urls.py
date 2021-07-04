@@ -20,6 +20,7 @@ kakaoconnections = KakaoConnectionsViewSet.as_view({
 })
 
 logout = LogoutViewSet.as_view({
+    'patch': 'partial_update',
     'delete': 'destroy'
 })
 
