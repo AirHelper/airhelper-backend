@@ -27,6 +27,13 @@ class LoginResponseSerializer(serializers.Serializer):
     lifetime = serializers.FloatField(label='access토큰 남은시간', required=False)
 
 
+class CustomUserPatchSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=False)
+    name = serializers.CharField(required=False, max_length=60)
+    call_sign = serializers.CharField(required=False, max_length=60)
+    profile_image = serializers.ImageField(required=False)
+
+
 class CustomUserDecorator():
     def Create():
         return swagger_auto_schema(
@@ -60,6 +67,7 @@ class CustomUserDecorator():
         return swagger_auto_schema(
             operation_summary="PK User 수정",
             operation_description="특정 User 수정",
+            request_body=CustomUserPatchSerializer,
             responses={
                 201: CustomUserSerializer
             }
