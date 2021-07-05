@@ -12,3 +12,4 @@ gunicorn
 coverage
 random_username
 djangorestframework-simplejwt
+Pillow

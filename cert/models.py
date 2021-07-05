@@ -79,7 +79,7 @@ class CustomUser(AbstractBaseUser):
     email = models.EmailField(_('이메일'), unique=True)
     name = models.CharField(_('이름'), max_length=60)
     call_sign = models.CharField(_('콜사인'), max_length=60, unique=True)
-    profile_image = models.TextField(_('프로필사진'), default='./default_img')
+    profile_image = models.ImageField(_('프로필사진'), blank=True, upload_to='profiles', default='default_img.jpg')
     is_active = models.BooleanField(_('계정 활성화여부'), default=True)
     is_staff = models.BooleanField(_('필드 관리자 여부'), default=False)
     is_admin = models.BooleanField(_('총 관리자 여부'), default=False)
