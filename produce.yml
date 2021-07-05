@@ -22,6 +22,7 @@ services:
       - .:/app
       - ./config/nginx:/etc/nginx/conf.d
       - ./backend/static:/static
+      - ./backend/media:/media
     depends_on: # 서비스 간의 종속성 표현
       - app
 
