@@ -31,7 +31,7 @@ class CustomUserPatchSerializer(serializers.Serializer):
     email = serializers.EmailField(required=False)
     name = serializers.CharField(required=False, max_length=60)
     call_sign = serializers.CharField(required=False, max_length=60)
-    profile_image = serializers.ImageField(required=False)
+    profile_image = serializers.CharField(required=False)
 
 
 class CustomUserDecorator():
