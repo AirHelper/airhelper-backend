@@ -16,7 +16,8 @@ services:
     command: gunicorn backend.wsgi:application --bind 0.0.0.0:8000
     expose:
       - "8000"
-
+    networks:
+      - nginx_network
   nginx:
     image: nginx:latest # nginx 서비스에서 사용할 도커 이미지
     ports:
@@ -28,12 +29,18 @@ services:
       - ./backend/media:/media
     depends_on: # 서비스 간의 종속성 표현
       - app
-
+    networks:
+      - nginx_network
   redis:
     container_name: redis_service
     image: redis
     command: --appendonly yes
     ports:
       - "6379:6379"
+    networks:
+      - nginx_network
+networks:
+  nginx_network:
+    driver: bridge
 volumes:
   static:
