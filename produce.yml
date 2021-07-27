@@ -7,6 +7,8 @@ services:
       dockerfile: Dockerfile-prod
     ports:
       - "8000:8000"
+    depends_on:
+      - redis
     volumes:
       - .:/app
       - ./backend/static:/static
@@ -27,5 +29,11 @@ services:
     depends_on: # 서비스 간의 종속성 표현
       - app
 
+  redis:
+    container_name: redis_service
+    image: redis
+    command: --appendonly yes
+    ports:
+      - "6379:6379"
 volumes:
   static:
