@@ -13,4 +13,5 @@ coverage
 random_username
 djangorestframework-simplejwt
 Pillow
-djangochannelsrestframework
+channels
+channels_redis

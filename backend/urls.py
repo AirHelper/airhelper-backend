@@ -38,7 +38,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/cert/', include('cert.urls')),
     path('api/oauth/', include('oauth.urls')),
-    path('api/game/', include('game.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

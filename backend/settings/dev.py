@@ -17,6 +17,15 @@ DEBUG = True
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases'
 SYSTEM_ENV = os.environ.get('SYSTEM_ENV', None)
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('172.23.0.1', 6379)],
+        }
+    },
+}
+
 if SYSTEM_ENV is None:
     print('로컬 개발용')
     DATABASES = {

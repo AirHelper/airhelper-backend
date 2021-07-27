@@ -34,8 +34,7 @@ ALLOWED_HOSTS = ['*', 'web']
 
 INSTALLED_APPS = [
     'channels',
-    'channels_redis',
-    'game',
+    'room',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -156,12 +155,4 @@ KAKAO_REDIRECT_URI = 'http://127.0.0.1:8000/api/oauth/kakao/login/callback/'
 KAKAO = 'kakao'
 
 # Channels
-# ASGI_APPLICATION = 'backend.asgi.application'
-# CHANNEL_LAYERS = {
-#     'default': {
-#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
-#         'CONFIG': {
-#             "hosts": [('127.0.0.1', 6379)],
-#         }
-#     },
-# }
+ASGI_APPLICATION = 'backend.asgi.application'
