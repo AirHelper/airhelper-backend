@@ -1,21 +1,45 @@
 version: "3"
 
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile-prod
-    ports:
-      - "8000:8000"
-    depends_on:
-      - redis
-    volumes:
-      - .:/app
-      - ./backend/static:/static
-      - ./backend/media:/media
+#  app:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile-prod
+#    ports:
+#      - "8000:8000"
+#    depends_on:
+#      - redis
+#    volumes:
+#      - .:/app
+#      - ./backend/static:/static
+#      - ./backend/media:/media
+#    command: gunicorn backend.wsgi:application --bind 0.0.0.0:8000
+#    expose:
+#      - "8000"
+  django_wsgi:
+    container_name: django_wsgi
+    build: .
     command: gunicorn backend.wsgi:application --bind 0.0.0.0:8000
-    expose:
-      - "8000"
+    volumes:
+      - .:/code
+    networks:
+      - webnet
+      - redisnet
+    links:
+      - redis
+
+
+  django_asgi:
+    container_name: django_asgi
+    build: .
+    command: daphne -b 0.0.0.0 -p 9000 backend.asgi:application
+    volumes:
+      - .:/code
+    networks:
+      - webnet
+      - redisnet
+    links:
+      - redis
 
   nginx:
     image: nginx:latest # nginx 서비스에서 사용할 도커 이미지
@@ -27,7 +51,10 @@ services:
       - ./backend/static:/static
       - ./backend/media:/media
     depends_on: # 서비스 간의 종속성 표현
-      - app
+      - django_wsgi
+      - django_asgi
+    networks:
+      - webnet
 
   redis:
     container_name: redis_service
@@ -35,6 +62,12 @@ services:
     command: --appendonly yes
     ports:
       - "6379:6379"
+    networks:
+      - redisnet
 
 volumes:
   static:
+
+networks:
+  webnet:
+  redisnet:
