@@ -55,7 +55,7 @@ services:
       - ./backend/static:/static
       - ./backend/media:/media
     depends_on: # 서비스 간의 종속성 표현
-      - django_wsgi
+      - app
       - django_asgi
     networks:
       - webnet
