@@ -1,25 +1,39 @@
 from rest_framework import serializers
 from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+from .serializers import RoomSerializer
 """
     Swagger Response or Body Serializer
 """
 
 
-class RoomlistSerializer(serializers.Serializer):
-    title = serializers.CharField(label='방 이름')
-    password = serializers.CharField(label='방 비번')
-    verboseLeft = serializers.IntegerField(label='레드팀 수')
-    verboseRight = serializers.IntegerField(label='블루팀 수')
-    time = serializers.IntegerField(label='게임 시간')
-    gameType = serializers.IntegerField(label='게임 종류')
-
-
-class RoomlistDecorator():
-    def Retrieve():
+class RoomDecorator():
+    def Create():
         return swagger_auto_schema(
-            operation_summary="방 목록 가져오기",
-            operation_description="생성된 방 목록을 가져옵니다.",
+            operation_summary="방 생성",
+            operation_description="방 생성하기",
+            request_body=RoomSerializer,
             responses={
-                200: RoomlistSerializer
+                201: RoomSerializer
             }
         )
+
+    def List():
+        return swagger_auto_schema(
+            operation_summary="방 목록",
+            operation_description="방 리스트 불러오기",
+            responses={
+                200: RoomSerializer
+            }
+        )
+
+    def Retrieve():
+        return swagger_auto_schema(
+            operation_summary="특정 방 정보",
+            operation_description="특정 방 정보를 불러온다.",
+            responses={
+                200: RoomSerializer
+            }
+        )
+
+

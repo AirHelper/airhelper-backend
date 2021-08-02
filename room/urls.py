@@ -3,10 +3,16 @@ from .views import (
     RoomViewSet
 )
 
+room_cr = RoomViewSet.as_view({
+    'get': 'list',
+    'post': 'create'
+})
+
 room = RoomViewSet.as_view({
-    'get': 'retrieve',
+    'get': 'retrieve'
 })
 
 urlpatterns = [
-    path('list', room, name='room'),
+    path('room', room_cr, name='room_CR'),
+    path('room/<int:pk>', room, name='room'),
 ]
