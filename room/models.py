@@ -25,3 +25,20 @@ class GameType(models.Model):
     class Meta:
         db_table = 'gametype'
         verbose_name = '게임타입'
+
+
+class AttendedUser(models.Model):
+    room = models.ForeignKey(
+        'room.Room',
+        on_delete=models.CASCADE,
+        verbose_name='방ID'
+    )
+    user = user = models.ForeignKey(
+        'cert.CustomUser',
+        on_delete=models.CASCADE,
+        verbose_name='회원id'
+    )
+
+    class Meta:
+        db_table = 'attended_user'
+        verbose_name = '입장 유저'

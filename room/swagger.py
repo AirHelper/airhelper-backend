@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-from .serializers import RoomSerializer
+from .serializers import RoomSerializer, AttendedUserSerializer
 """
     Swagger Response or Body Serializer
 """
@@ -37,3 +37,28 @@ class RoomDecorator():
         )
 
 
+class AttendedUserDecorator():
+    def Create():
+        return swagger_auto_schema(
+            operation_summary="유저 방 입장",
+            operation_description="유저 방 입장",
+            request_body=AttendedUserSerializer,
+            responses={
+                201: AttendedUserSerializer
+            }
+        )
+
+    def Retrieve():
+        return swagger_auto_schema(
+            operation_summary="해당 방에 입장해있는 유저 목록",
+            operation_description="해당 방에 입장해있는 유저 목록 불러오기",
+            responses={
+                200: AttendedUserSerializer
+            }
+        )
+
+    def Destroy():
+        return swagger_auto_schema(
+            operation_summary="유저 방 퇴장",
+            operation_description="유저 방 퇴장"
+        )

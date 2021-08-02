@@ -7,9 +7,11 @@ from .models import Room
 
 
 class CreateRoom(AsyncWebsocketConsumer):
+    http_user = True
+
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
-        self.room_group_name = 'room'
+        self.room_group_name = 'game_%s' % self.room_name
         # Join room group
         await self.channel_layer.group_add(
             self.room_group_name,
@@ -21,6 +23,13 @@ class CreateRoom(AsyncWebsocketConsumer):
     async def disconnect(self, close_code):
         await self.delete_room()
 
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'all_disconnect',
+                'message': 'disconnect'
+            }
+        )
         # Leave room group
         await self.channel_layer.group_discard(
             self.room_group_name,
@@ -33,9 +42,11 @@ class CreateRoom(AsyncWebsocketConsumer):
 
 
 class AttendRoom(AsyncWebsocketConsumer):
+    http_user = True
+
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
-        self.room_group_name = 'chat_%s' % self.room_name
+        self.room_group_name = 'game_%s' % self.room_name
 
         # Join room group
         await self.channel_layer.group_add(
@@ -56,11 +67,8 @@ class AttendRoom(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
-
-        print(text_data_json)
-        print(message)
-
         # Send message to room group
+
         await self.channel_layer.group_send(
             self.room_group_name,
             {
