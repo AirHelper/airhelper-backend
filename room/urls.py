@@ -13,12 +13,12 @@ room = RoomViewSet.as_view({
 })
 
 attend_user_c = AttendedUserViewSet.as_view({
-    'post': 'create'
+    'post': 'create',
+    'delete': 'destroy'
 })
 
 attend_user = AttendedUserViewSet.as_view({
     'get': 'retrieve',
-    'delete': 'destroy'
 })
 
 urlpatterns = [

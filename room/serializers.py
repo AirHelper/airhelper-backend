@@ -15,3 +15,10 @@ class AttendedUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = AttendedUser
         fields = '__all__'
+
+
+class AttendUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = AttendedUser
+        fields = '__all__'

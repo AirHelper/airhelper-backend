@@ -2,9 +2,16 @@ from rest_framework import serializers
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from .serializers import RoomSerializer, AttendedUserSerializer
+from rest_framework import serializers
+from .models import AttendedUser
 """
     Swagger Response or Body Serializer
 """
+
+
+class GameAttendUserSerializer(serializers.Serializer):
+    user = serializers.IntegerField(required=True)
+    room = serializers.IntegerField(required=True)
 
 
 class RoomDecorator():
@@ -42,7 +49,7 @@ class AttendedUserDecorator():
         return swagger_auto_schema(
             operation_summary="유저 방 입장",
             operation_description="유저 방 입장",
-            request_body=AttendedUserSerializer,
+            request_body=GameAttendUserSerializer,
             responses={
                 201: AttendedUserSerializer
             }
@@ -60,5 +67,6 @@ class AttendedUserDecorator():
     def Destroy():
         return swagger_auto_schema(
             operation_summary="유저 방 퇴장",
-            operation_description="유저 방 퇴장"
+            operation_description="유저 방 퇴장",
+            request_body=GameAttendUserSerializer,
         )
