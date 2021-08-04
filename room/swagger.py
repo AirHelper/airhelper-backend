@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-from .serializers import RoomSerializer, AttendedUserSerializer
+from .serializers import RoomSerializer, AttendedUserSerializer, AttendUserSerializer
 from rest_framework import serializers
 from .models import AttendedUser
 """
@@ -51,7 +51,7 @@ class AttendedUserDecorator():
             operation_description="유저 방 입장",
             request_body=GameAttendUserSerializer,
             responses={
-                201: AttendedUserSerializer
+                201: AttendUserSerializer
             }
         )
 

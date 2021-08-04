@@ -36,7 +36,7 @@ class AttendedUserViewSet(ModelViewSet):
 
     @action(detail=False, methods=['POST'])  # 특정 방에 입장시키기
     def create(self, request):
-        serializer = AttendUserSerializer(data=request.data)
+        serializer = AttendedUserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_200_OK, data=serializer.data)
