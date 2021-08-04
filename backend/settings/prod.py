@@ -1,5 +1,5 @@
 from .base import *
-
+print('배포용')
 DEBUG = True
 CHANNEL_LAYERS = {
     'default': {

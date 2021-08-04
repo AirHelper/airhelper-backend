@@ -35,10 +35,12 @@ services:
 
   django_asgi:
     container_name: django_asgi
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile-prod
     command: daphne -b 0.0.0.0 -p 9000 backend.asgi:application
     volumes:
-      - .:/code
+      - .:/backend
     networks:
       - webnet
       - redisnet
