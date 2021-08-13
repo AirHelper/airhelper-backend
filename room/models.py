@@ -33,11 +33,13 @@ class AttendedUser(models.Model):
         on_delete=models.CASCADE,
         verbose_name='방ID'
     )
-    user = user = models.ForeignKey(
+    user = models.ForeignKey(
         'cert.CustomUser',
         on_delete=models.CASCADE,
         verbose_name='회원id'
     )
+    team = models.CharField('팀', max_length=20, null=False, default='레드팀')
+    is_admin = models.BooleanField('방장 여부', null=False, default=False)
 
     class Meta:
         db_table = 'attended_user'
