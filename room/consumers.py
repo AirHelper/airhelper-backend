@@ -29,8 +29,7 @@ class CreateRoom(AsyncWebsocketConsumer):
         await self.channel_layer.group_send(
             self.room_group_name,
             {
-                'type': 'user_disconnect',
-                'user': self.my_user_id
+                'type': 'room_delete'
             }
         )
         # Leave room group
@@ -109,8 +108,7 @@ class AttendRoom(AsyncWebsocketConsumer):
         await self.channel_layer.group_send(
             self.room_group_name,
             {
-                'type': 'user_disconnect',
-                'user': self.my_user_id
+                'type': 'user_attend'
             }
         )
         # Leave room group
@@ -118,10 +116,6 @@ class AttendRoom(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
-
-    async def user_disconnect(self, event):
-        data = await self.get_attenduser()
-        await self.send(text_data=data)
 
     @database_sync_to_async
     def delete_attend_user(self):
@@ -168,3 +162,8 @@ class AttendRoom(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'message': message
         }))
+
+    async def room_delete(self, event):
+        data = {'type': 'room_delete'}
+
+        await self.send(text_data=json.dumps(data))
