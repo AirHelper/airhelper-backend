@@ -53,7 +53,7 @@ class CreateRoom(AsyncWebsocketConsumer):
 
         if text_data_json['type'] == 'user_attend':
             self.my_user_id = text_data_json['user']
-            await self.save_attenduser(text_data_json['user'], text_data_json['team'])
+            await self.save_attenduser(text_data_json['user'], text_data_json['team'], text_data_json['is_admin'])
 
         await self.channel_layer.group_send(
             self.room_group_name,
@@ -61,11 +61,12 @@ class CreateRoom(AsyncWebsocketConsumer):
         )
 
     @database_sync_to_async
-    def save_attenduser(self, user_id, team):
+    def save_attenduser(self, user_id, team, is_admin=False):
         return AttendedUser.objects.create(
             user_id=user_id,
             team=team,
-            room_id=self.room_name
+            room_id=self.room_name,
+            is_admin=is_admin
         )
 
     async def user_attend(self, event):
