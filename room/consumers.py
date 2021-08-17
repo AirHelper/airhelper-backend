@@ -99,6 +99,7 @@ class CreateRoom(AsyncWebsocketConsumer):
 
         await self.send(text_data=json.dumps(data))
 
+
 class AttendRoom(AsyncWebsocketConsumer):
     http_user = True
 
