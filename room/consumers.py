@@ -53,11 +53,25 @@ class CreateRoom(AsyncWebsocketConsumer):
         if text_data_json['type'] == 'user_attend':
             self.my_user_id = text_data_json['user']
             await self.save_attenduser(text_data_json['user'], text_data_json['team'], text_data_json['is_admin'])
+        elif text_data_json['type'] == 'team_change':  # 팀변경
+            self.my_user_id = text_data_json['user']
+            await self.update_team(text_data_json['user'], text_data_json['team'])
 
         await self.channel_layer.group_send(
             self.room_group_name,
             text_data_json
         )
+
+    async def team_change(self, event):
+        json_data = {'type': 'user_attend'}
+        json_data['data'] = await self.get_attenduser()
+
+        await self.send(text_data=json.dumps(json_data))
+
+    @database_sync_to_async
+    def update_team(self, user_id, team):
+        attend_user = AttendedUser.objects.filter(user_id=user_id)
+        attend_user.update(team=team)
 
     @database_sync_to_async
     def save_attenduser(self, user_id, team, is_admin=False):
@@ -128,6 +142,9 @@ class AttendRoom(AsyncWebsocketConsumer):
         if text_data_json['type'] == 'user_attend':  # 유저 방 입장
             self.my_user_id = text_data_json['user']
             await self.save_attenduser(text_data_json['user'], text_data_json['team'])
+        elif text_data_json['type'] == 'team_change':  # 팀변경
+            self.my_user_id = text_data_json['user']
+            await self.update_team(text_data_json['user'], text_data_json['team'])
 
         await self.channel_layer.group_send(
             self.room_group_name,
@@ -139,6 +156,17 @@ class AttendRoom(AsyncWebsocketConsumer):
         json_data['data'] = await self.get_attenduser()
 
         await self.send(text_data=json.dumps(json_data))
+
+    async def team_change(self, event):
+        json_data = {'type': 'user_attend'}
+        json_data['data'] = await self.get_attenduser()
+
+        await self.send(text_data=json.dumps(json_data))
+
+    @database_sync_to_async
+    def update_team(self, user_id, team):
+        attend_user = AttendedUser.objects.filter(user_id=user_id)
+        attend_user.update(team=team)
 
     @database_sync_to_async
     def save_attenduser(self, user_id, team):
