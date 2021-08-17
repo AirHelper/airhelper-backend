@@ -94,6 +94,10 @@ class CreateRoom(AsyncWebsocketConsumer):
         serializer = AttendedUserSerializer(attend_users, many=True)
         return serializer.data
 
+    async def room_delete(self, event):
+        data = {'type': 'room_delete'}
+
+        await self.send(text_data=json.dumps(data))
 
 class AttendRoom(AsyncWebsocketConsumer):
     http_user = True
@@ -191,7 +195,3 @@ class AttendRoom(AsyncWebsocketConsumer):
             'message': message
         }))
 
-    async def room_delete(self, event):
-        data = {'type': 'room_delete'}
-
-        await self.send(text_data=json.dumps(data))
