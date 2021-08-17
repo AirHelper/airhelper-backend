@@ -70,14 +70,16 @@ class CreateRoom(AsyncWebsocketConsumer):
         )
 
     async def user_attend(self, event):
-        data = await self.get_attenduser()
-        await self.send(text_data=data)
+        json_data = {'type':'user_attend'}
+        json_data['data'] = await self.get_attenduser()
+
+        await self.send(text_data=json.dumps(json_data))
 
     @database_sync_to_async
     def get_attenduser(self):
         attend_users = AttendedUser.objects.all()
         serializer = AttendedUserSerializer(attend_users, many=True)
-        return json.dumps(serializer.data)
+        return serializer.data
 
 
 class AttendRoom(AsyncWebsocketConsumer):
@@ -139,8 +141,10 @@ class AttendRoom(AsyncWebsocketConsumer):
         )
 
     async def user_attend(self, event):
-        data = await self.get_attenduser()
-        await self.send(text_data=data)
+        json_data = {'type':'user_attend'}
+        json_data['data'] = await self.get_attenduser()
+
+        await self.send(text_data=json.dumps(json_data))
 
     @database_sync_to_async
     def save_attenduser(self, user_id, team):
@@ -154,7 +158,7 @@ class AttendRoom(AsyncWebsocketConsumer):
     def get_attenduser(self):
         attend_users = AttendedUser.objects.all()
         serializer = AttendedUserSerializer(attend_users, many=True)
-        return json.dumps(serializer.data)
+        return serializer.data
 
     # Receive message from room group
     async def chat_message(self, event):
