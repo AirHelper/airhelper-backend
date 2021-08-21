@@ -27,12 +27,13 @@ class CreateRoom(AsyncWebsocketConsumer):
     async def disconnect(self, close_code):
         await self.delete_room()
 
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'room_delete'
-            }
-        )
+        if hasattr(self, 'game_id') is False:  # 게임을 시작하기 위해 방 나간것이 아니라면 방장이 방을 없앤것이므로 전송
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'room_delete'
+                }
+            )
         # Leave room group
         await self.channel_layer.group_discard(
             self.room_group_name,
@@ -58,9 +59,9 @@ class CreateRoom(AsyncWebsocketConsumer):
             self.my_user_id = text_data_json['user']
             await self.update_team(text_data_json['user'], text_data_json['team'])
         elif text_data_json['type'] == 'game_start':  # 게임 시작
-            game_id = await self.save_gamedata()
-            text_data_json['game'] = game_id
-            await self.save_gameplayer(game_id)
+            self.game_id = await self.save_gamedata()
+            text_data_json['game'] = self.game_id
+            await self.save_gameplayer(self.game_id)
 
         await self.channel_layer.group_send(
             self.room_group_name,
@@ -102,8 +103,6 @@ class CreateRoom(AsyncWebsocketConsumer):
             game_type=room.game_type
         )
         return game.id
-
-
 
     @database_sync_to_async
     def update_team(self, user_id, team):
@@ -239,3 +238,7 @@ class AttendRoom(AsyncWebsocketConsumer):
             'message': message
         }))
 
+    async def room_delete(self, event):
+        data = {'type': 'room_delete'}
+
+        await self.send(text_data=json.dumps(data))
