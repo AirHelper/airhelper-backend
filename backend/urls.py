@@ -39,6 +39,7 @@ urlpatterns = [
     path('api/cert/', include('cert.urls')),
     path('api/oauth/', include('oauth.urls')),
     path('api/game/', include('room.urls')),
+    path('api/board/', include('board.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
