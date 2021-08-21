@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'oauth',
     'rest_framework_simplejwt.token_blacklist',
+    'game',
 ]
 
 MIDDLEWARE = [
