@@ -23,7 +23,7 @@ class BoardMedia(models.Model):
         on_delete=models.CASCADE,
         verbose_name='게시판id'
     )
-    file_path = models.FileField('파일경로', upload_to='board/% Y/% m/% d/')
+    file_path = models.FileField('파일경로', upload_to='board/%Y/%m/%d/')
     
     class Meta:
         db_table = 'board_media'
