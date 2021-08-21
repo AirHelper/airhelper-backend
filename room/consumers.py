@@ -5,6 +5,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from .models import Room, AttendedUser
 from .serializers import AttendedUserSerializer, AttendUserSerializer
+from game.models import Game, Player
 from urllib import parse
 import json
 
@@ -56,6 +57,10 @@ class CreateRoom(AsyncWebsocketConsumer):
         elif text_data_json['type'] == 'team_change':  # 팀변경
             self.my_user_id = text_data_json['user']
             await self.update_team(text_data_json['user'], text_data_json['team'])
+        elif text_data_json['type'] == 'game_start':  # 게임 시작
+            game_id = await self.save_gamedata()
+            text_data_json['game'] = game_id
+            await self.save_gameplayer(game_id)
 
         await self.channel_layer.group_send(
             self.room_group_name,
@@ -67,6 +72,35 @@ class CreateRoom(AsyncWebsocketConsumer):
         json_data['data'] = await self.get_attenduser()
 
         await self.send(text_data=json.dumps(json_data))
+
+    async def game_start(self, event):
+        await self.send(text_data=json.dumps(event))
+
+    @database_sync_to_async
+    def save_gameplayer(self, game_id):
+        attended_user = AttendedUser.objects.filter(room_id=self.room_name)
+        for user in attended_user:
+            Player.objects.create(
+                user_id=user.user_id,
+                team=user.team,
+                game_id=game_id,
+                is_admin=user.is_admin
+            )
+
+    @database_sync_to_async
+    def save_gamedata(self):
+        room = Room.objects.filter(id=self.room_name).get()
+        game = Game.objects.create(
+            title=room.title,
+            password=room.password,
+            verbose_left=room.verbose_left,
+            verbose_right=room.verbose_right,
+            time=room.time,
+            game_type=room.game_type
+        )
+        return game.id
+
+
 
     @database_sync_to_async
     def update_team(self, user_id, team):
@@ -155,6 +189,9 @@ class AttendRoom(AsyncWebsocketConsumer):
             self.room_group_name,
             text_data_json
         )
+
+    async def game_start(self, event):
+        await self.send(text_data=json.dumps(event))
 
     async def user_attend(self, event):
         json_data = {'type':'user_attend'}
