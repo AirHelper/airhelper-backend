@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'oauth',
     'rest_framework_simplejwt.token_blacklist',
     'game',
+    'board',
 ]
 
 MIDDLEWARE = [
