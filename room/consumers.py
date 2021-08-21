@@ -67,6 +67,9 @@ class CreateRoom(AsyncWebsocketConsumer):
             text_data_json
         )
 
+    async def room_destory(self, event):
+        await self.send(text_data=json.dumps(event))
+
     async def team_change(self, event):
         json_data = {'type': 'user_attend'}
         json_data['data'] = await self.get_attenduser()
@@ -189,6 +192,9 @@ class AttendRoom(AsyncWebsocketConsumer):
             self.room_group_name,
             text_data_json
         )
+
+    async def room_destory(self, event):
+        await self.send(text_data=json.dumps(event))
 
     async def game_start(self, event):
         await self.send(text_data=json.dumps(event))
