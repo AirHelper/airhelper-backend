@@ -11,11 +11,11 @@ class Game(AsyncWebsocketConsumer):
     http_user = True
 
     async def connect(self):
-        self.room_name = parse.unquote(self.scope['url_route']['kwargs']['room_name'])
-        self.room_group_name = 'game_%s' % self.room_name
+        self.game_id = parse.unquote(self.scope['url_route']['kwargs']['game_id'])
+        self.game_name = 'game_%s' % self.game_id
         # Join room group
         await self.channel_layer.group_add(
-            self.room_group_name,
+            self.game_name,
             self.channel_name
         )
 
@@ -24,7 +24,7 @@ class Game(AsyncWebsocketConsumer):
     async def disconnect(self, close_code):
         # Leave room group
         await self.channel_layer.group_discard(
-            self.room_group_name,
+            self.game_name,
             self.channel_name
         )
 
@@ -33,6 +33,6 @@ class Game(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
 
         await self.channel_layer.group_send(
-            self.room_group_name,
+            self.game_name,
             text_data_json
         )
