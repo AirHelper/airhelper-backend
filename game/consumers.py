@@ -1,10 +1,10 @@
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
-import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from urllib import parse
-import json
+from .models import Game as Games
+import json, time, datetime
 
 
 class Game(AsyncWebsocketConsumer):
@@ -32,7 +32,24 @@ class Game(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
 
+        if text_data_json['type'] == 'timer':  # 게임 타이머
+            self.time = await self.get_gameTime()
+
         await self.channel_layer.group_send(
             self.game_name,
             text_data_json
         )
+
+    async def timer(self, event):
+        now = datetime.datetime.now()
+        after = now + datetime.timedelta(minutes=self.time)
+        json_data = {
+            'type': 'timer',
+            'start_time': "%02d:%02d:%02d" % (now.hour, now.minute, now.second),
+            'end_time': "%02d:%02d:%02d" % (after.hour, after.minute, after.second)
+        }
+        await self.send(text_data=json.dumps(json_data))
+
+    @database_sync_to_async
+    def get_gameTime(self):
+        return Games.objects.filter(id=self.game_id).get().time
