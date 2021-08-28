@@ -32,8 +32,8 @@ class Game(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
 
-        if text_data_json['type'] == 'timer':  # 게임 타이머
-            self.time = await self.get_gameTime()
+        # if text_data_json['type'] == 'timer':  # 게임 타이머
+        #     self.time = await self.get_gameTime()
 
         await self.channel_layer.group_send(
             self.game_name,
@@ -42,7 +42,8 @@ class Game(AsyncWebsocketConsumer):
 
     async def timer(self, event):
         now = datetime.datetime.now()
-        after = now + datetime.timedelta(minutes=self.time)
+        time = await self.get_gameTime()
+        after = now + datetime.timedelta(minutes=time.time)
         json_data = {
             'type': 'timer',
             'start_time': "%02d:%02d:%02d" % (now.hour, now.minute, now.second),
@@ -52,4 +53,4 @@ class Game(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def get_gameTime(self):
-        return Games.objects.filter(id=self.game_id).get().time
+        return Games.objects.filter(id=self.game_id).get()
