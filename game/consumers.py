@@ -54,3 +54,6 @@ class Game(AsyncWebsocketConsumer):
     @database_sync_to_async
     def get_gameTime(self):
         return Games.objects.filter(id=self.game_id).get()
+
+    async def location(self, event):
+        await self.send(text_data=json.dumps(event))
