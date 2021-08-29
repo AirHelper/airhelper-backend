@@ -3,7 +3,7 @@ from channels.generic.websocket import WebsocketConsumer
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from urllib import parse
-from .models import Game as Games
+from .models import Game as Games, Player
 import json, time, datetime
 
 
@@ -56,4 +56,10 @@ class Game(AsyncWebsocketConsumer):
         return Games.objects.filter(id=self.game_id).get()
 
     async def location(self, event):
+        event['team'] = await self.get_playerTeam(event['user'])
+
         await self.send(text_data=json.dumps(event))
+
+    @database_sync_to_async
+    def get_playerTeam(self, user_id):
+        return Player.objects.filter(user_id=user_id).get().team
