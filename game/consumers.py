@@ -62,4 +62,4 @@ class Game(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def get_playerTeam(self, user_id):
-        return Player.objects.filter(user_id=user_id).get().team
+        return Player.objects.filter(user_id=user_id, game_id=self.game_id).get().team
