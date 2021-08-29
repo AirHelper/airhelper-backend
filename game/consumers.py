@@ -4,6 +4,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from urllib import parse
 from .models import Game as Games, Player
+from cert.models import CustomUser
 import json, time, datetime
 
 
@@ -57,9 +58,13 @@ class Game(AsyncWebsocketConsumer):
 
     async def location(self, event):
         event['team'] = await self.get_playerTeam(event['user'])
-
+        event['call_sign'] = await self.get_callSign(event['user'])
         await self.send(text_data=json.dumps(event))
 
     @database_sync_to_async
     def get_playerTeam(self, user_id):
         return Player.objects.filter(user_id=user_id, game_id=self.game_id).get().team
+
+    @database_sync_to_async
+    def get_callSign(self, user_id):
+        return CustomUser.objects.filter(id=user_id).get().call_sign
