@@ -22,6 +22,16 @@ class Game(AsyncWebsocketConsumer):
 
         await self.accept()
 
+        now = datetime.datetime.now()
+        time = await self.get_gameTime()
+        after = now + datetime.timedelta(minutes=time.time)
+        json_data = {
+            'type': 'timer',
+            'start_time': "%02d:%02d:%02d" % (now.hour, now.minute, now.second),
+            'end_time': "%02d:%02d:%02d" % (after.hour, after.minute, after.second)
+        }
+        await self.send(text_data=json.dumps(json_data))
+
     async def disconnect(self, close_code):
         # Leave room group
         await self.channel_layer.group_discard(
