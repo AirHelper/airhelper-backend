@@ -69,6 +69,8 @@ class Game(AsyncWebsocketConsumer):
     async def location(self, event):
         event['team'] = await self.get_playerTeam(event['user'])
         event['call_sign'] = await self.get_callSign(event['user'])
+        if event['alive'] is False:
+            await self.modify_playerAlive(self, event['user'])
         await self.send(text_data=json.dumps(event))
 
     @database_sync_to_async
@@ -78,3 +80,9 @@ class Game(AsyncWebsocketConsumer):
     @database_sync_to_async
     def get_callSign(self, user_id):
         return CustomUser.objects.filter(id=user_id).get().call_sign
+
+    @database_sync_to_async
+    def modify_playerAlive(self, user_id):
+        player = Player.objects.filter(user_id=user_id, game_id=self.game_id).get()
+        player.alive = False
+        player.save()
