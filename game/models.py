@@ -33,6 +33,7 @@ class Player(models.Model):
     )
     team = models.CharField('팀', max_length=20, null=False, default='레드팀')
     is_admin = models.BooleanField('방장 여부', null=False, default=False)
+    alive = models.BooleanField('생존 여부', null=False, default=True)
 
     class Meta:
         db_table = 'player'
