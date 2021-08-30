@@ -69,8 +69,10 @@ class Game(AsyncWebsocketConsumer):
     async def location(self, event):
         event['team'] = await self.get_playerTeam(event['user'])
         event['call_sign'] = await self.get_callSign(event['user'])
+        event['game_result'] = await self.game_result()
         if event['alive'] is False:
-            await self.modify_playerAlive(self, event['user'])
+            await self.modify_playerAlive(event['user'])
+
         await self.send(text_data=json.dumps(event))
 
     @database_sync_to_async
@@ -86,3 +88,14 @@ class Game(AsyncWebsocketConsumer):
         player = Player.objects.filter(user_id=user_id, game_id=self.game_id).get()
         player.alive = False
         player.save()
+
+    @database_sync_to_async
+    def game_result(self):
+        redTeam_dead_player = Player.objects.filter(game_id=self.game_id, team='레드팀', alive=False).count()
+        if redTeam_dead_player == 0:
+            return '레드팀 패배'
+        blueTeam_dead_player = Player.objects.filter(game_id=self.game_id, team='블루팀', alive=False).count()
+        if blueTeam_dead_player == 0:
+            return '블루팀 패배'
+        else:
+            return '생존자 있음'
