@@ -92,7 +92,8 @@ class Game(AsyncWebsocketConsumer):
         player.save()
 
     async def game_end(self, event):
-        # event['game_result'] = await self.game_result()
+        event['redTeam_player_count'] = await self.get_player_cnt('레드팀')
+        event['blueTeam_player_count'] = await self.get_player_cnt('블루팀')
         await self.send(text_data=json.dumps(event))
 
     @database_sync_to_async
