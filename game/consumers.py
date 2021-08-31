@@ -94,8 +94,13 @@ class Game(AsyncWebsocketConsumer):
     async def game_end(self, event):
         event['redTeam_player_count'] = await self.get_player_cnt('레드팀')
         event['blueTeam_player_count'] = await self.get_player_cnt('블루팀')
+        await self.delete_game()
         await self.send(text_data=json.dumps(event))
 
     @database_sync_to_async
     def get_player_cnt(self, team):
         return Player.objects.filter(game_id=self.game_id, team=team, alive=True).count()
+
+    @database_sync_to_async
+    def delete_game(self):
+        Games.objects.filter(id=self.game_id).delete()
