@@ -98,4 +98,4 @@ class Game(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def get_player_cnt(self, team):
-        return Player.objects.filter(game_id=self.game_id, team=team, alive=False).count()
+        return Player.objects.filter(game_id=self.game_id, team=team, alive=True).count()
