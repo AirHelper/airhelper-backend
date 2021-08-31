@@ -72,7 +72,8 @@ class Game(AsyncWebsocketConsumer):
 
         if event['alive'] is False:
             await self.modify_playerAlive(event['user'])
-            event['game_result'] = await self.game_result()
+            event['redTeam_player_count'] = await self.get_player_cnt('레드팀')
+            event['blueTeam_player_count'] = await self.get_player_cnt('블루팀')
 
         await self.send(text_data=json.dumps(event))
 
@@ -90,12 +91,10 @@ class Game(AsyncWebsocketConsumer):
         player.alive = False
         player.save()
 
+    async def game_end(self, event):
+        # event['game_result'] = await self.game_result()
+        await self.send(text_data=json.dumps(event))
+
     @database_sync_to_async
-    def game_result(self):
-        redTeam_dead_player = Player.objects.filter(game_id=self.game_id, team='레드팀', alive=False).count()
-        if redTeam_dead_player == 0:
-            return '레드팀'
-        blueTeam_dead_player = Player.objects.filter(game_id=self.game_id, team='블루팀', alive=False).count()
-        if blueTeam_dead_player == 0:
-            return '블루팀'
-        return None
+    def get_player_cnt(self, team):
+        return Player.objects.filter(game_id=self.game_id, team=team, alive=False).count()
