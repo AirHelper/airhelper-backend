@@ -126,7 +126,7 @@ class CreateRoom(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def get_attenduser(self):
-        attend_users = AttendedUser.objects.all()
+        attend_users = AttendedUser.objects.filter(room_id=self.room_name).all()
         serializer = AttendedUserSerializer(attend_users, many=True)
         return serializer.data
 
@@ -225,7 +225,7 @@ class AttendRoom(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def get_attenduser(self):
-        attend_users = AttendedUser.objects.all()
+        attend_users = AttendedUser.objects.filter(room_id=self.room_name).all()
         serializer = AttendedUserSerializer(attend_users, many=True)
         return serializer.data
 
