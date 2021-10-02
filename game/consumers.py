@@ -77,6 +77,10 @@ class Game(AsyncWebsocketConsumer):
 
         await self.send(text_data=json.dumps(event))
 
+    async def checkpoint(self, event):  # 핑
+        event['team'] = await self.get_playerTeam(event['user'])
+        await self.send(text_data=json.dumps(event))
+
     @database_sync_to_async
     def get_playerTeam(self, user_id):
         return Player.objects.filter(user_id=user_id, game_id=self.game_id).get().team
