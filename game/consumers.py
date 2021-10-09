@@ -116,3 +116,6 @@ class Game(AsyncWebsocketConsumer):
         event['end_time'] = "%02d:%02d:%02d" % (after.hour, after.minute, after.second)
 
         await self.send(text_data=json.dumps(event))
+
+    async def bomb_uninstall(self, event):
+        await self.send(text_data=json.dumps(event))
