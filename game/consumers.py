@@ -108,3 +108,11 @@ class Game(AsyncWebsocketConsumer):
     @database_sync_to_async
     def delete_game(self):
         Games.objects.filter(id=self.game_id).delete()
+
+    async def bomb_install(self, event):
+        now = datetime.datetime.now()
+        after = now + datetime.timedelta(minutes=2)
+        event['start_time'] = "%02d:%02d:%02d" % (now.hour, now.minute, now.second)
+        event['end_time'] = "%02d:%02d:%02d" % (after.hour, after.minute, after.second)
+
+        await self.send(text_data=json.dumps(event))
