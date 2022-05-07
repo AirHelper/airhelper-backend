@@ -13,9 +13,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'airhelper-db',
-        'USER': 'airhelperdev',
-        'PASSWORD': 'airhelperdev',
-        'HOST': '133.186.244.147',
+        'USER': 'postgres',
+        'PASSWORD': 'root',
+        'HOST': '146.56.157.132',
         'PORT': 5432,
     }
 }
