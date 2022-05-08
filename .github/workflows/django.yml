@@ -46,7 +46,7 @@ jobs:
       env:
         SYSTEM_ENV: GITHUB_WORKFLOW
 
-    - name: deploy to NHN Toast Cloud
+    - name: deploy to Oracle Cloud
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
